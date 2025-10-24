@@ -2,13 +2,11 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 import { textVariants } from "./text";
 import { useState } from "react";
 
-const timeSlots = [
-  "09:00","09:30","10:00","10:30","11:00","11:30",
-  "13:00","13:30","14:00","14:30","15:00","15:30",
-  "16:00","16:30","17:00","17:30","18:00","18:30",
-  "19:00","19:30","20:00","20:30","21:00"
-];
-
+const timeGroups = {
+  Manhã: ["09:00", "10:00", "11:00"],
+  Tarde: ["13:00", "14:00", "15:00", "16:00", "17:00", "18:00"],
+  Noite: ["19:00", "20:00", "21:00"],
+};
 
 export const selectTimeVariants = cva(
   `
@@ -68,27 +66,36 @@ export default function SelectTime({
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
-      {timeSlots.map((time) => {
-        const isDisabled = disabledTimes.includes(time);
-        const isSelected = selectedTime === time;
-        const state = isDisabled ? "disabled" : isSelected ? "selected" : "default";
+    <div className="flex flex-col gap-6">
+      {Object.entries(timeGroups).map(([period, times]) => (
+        <div key={period}>
+          <p className={cx(textVariants({ variant: "text-sm" }), "mb-1 text-[color:var(--color-gray-200)]")}>
+            {period}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {times.map((time) => {
+              const isDisabled = disabledTimes.includes(time);
+              const isSelected = selectedTime === time;
+              const state = isDisabled ? "disabled" : isSelected ? "selected" : "default";
 
-        return (
-          <button
-            key={time}
-            className={cx(
-              selectTimeVariants({ state, size }),
-              textVariants({ variant: "text-md" }),
-              className
-            )}
-            onClick={() => handleClick(time)}
-            disabled={isDisabled}
-          >
-            {time}
-          </button>
-        );
-      })}
+              return (
+                <button
+                  key={time}
+                  className={cx(
+                    selectTimeVariants({ state, size }),
+                    textVariants({ variant: "text-md" }),
+                    className
+                  )}
+                  onClick={() => handleClick(time)}
+                  disabled={isDisabled}
+                >
+                  {time}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
