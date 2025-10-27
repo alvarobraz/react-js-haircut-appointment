@@ -10,17 +10,18 @@ interface DataContentProps {
 export default function DateContent({title}: DataContentProps) {
   return (
     <>
-    {
-      title && <Text className="!text-gray-200" variant="title-md">
-          {title}
-      </Text>
-    }
-      
-      <SelectDate
-        icon={Calendar}
-        iconVariant="primary"
-        onSelect={(date) => console.log(`Data selecionada: ${date}`)}
-      />
+      {
+        title && <Text className="!text-gray-200" variant="title-md">
+            {title}
+        </Text>
+      }
+        
+        <SelectDate
+          icon={Calendar}
+          iconVariant="primary"
+          onSelect={(date) => console.log(`Data selecionada: ${date}`)}
+          size={"md"}
+        />
     </>
   );
 }

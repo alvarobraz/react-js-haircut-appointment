@@ -152,7 +152,7 @@ export default function SelecionarData({
   return (
     <div
       ref={containerRef}
-      className="relative flex items-center w-[338px] select-date-container"
+      className="relative flex items-center w-[full] select-date-container"
     >
       <div className="absolute left-2">
         <Icon
