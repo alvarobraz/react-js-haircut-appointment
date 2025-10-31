@@ -58,15 +58,18 @@ export default function PageHome() {
 
   return (
     <Container className='flex flex-col md:flex-row justify-center items-start min-h-screen gap-4 p-4'>
-      <LogoImage className='relative left-31 top-[-15px]' />
-      <Card size={'md'} className='w-[498px] px-20 py-20 rounded-lg'>
+      <LogoImage className='relative left-[-8px] top-13 md:left-26 md:top-[-23px]' />
+      <Card size={'md'} className='w-full md:w-[498px] py-15 px-4 md:px-20 md:py-20 rounded-lg'>
         <TitleAndSubTitle
           title='Agende um atendimento'
           subtitle='Selecione data, horário e informe o nome do cliente para criar o agendamento'
         />
         <Form />
       </Card>
-      <Card size={'none'} className='w-[906px] px-20 py-20 rounded-lg bg-transparent'>
+      <Card
+        size={'none'}
+        className='w-full md:w-[906px] py-15 px-4 md:px-20 md:py-20 rounded-lg bg-transparent'
+      >
         <div className='flex justify-between items-start w-full'>
           <TitleAndSubTitle
             title='Sua agenda'

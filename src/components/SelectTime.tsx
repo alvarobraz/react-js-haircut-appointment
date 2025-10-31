@@ -49,9 +49,9 @@ interface SelectTimeProps extends VariantProps<typeof selectTimeVariants> {
   className?: string
   disabledTimes?: string[]
   onSelect?: (time: string) => void
-  selectedHour: string
-  isToday: boolean
-  currentTimeInMinutes: number
+  selectedHour?: string
+  isToday?: boolean
+  currentTimeInMinutes?: number
 }
 
 export default function SelectTime({
@@ -87,7 +87,10 @@ export default function SelectTime({
           <div className='flex flex-wrap gap-2'>
             {times.map((time) => {
               const isAlreadyDisabled = disabledTimes.includes(time)
-              const isPastHour = isToday && timeToMinutes(time) < currentTimeInMinutes
+              const isPastHour =
+                currentTimeInMinutes !== undefined &&
+                isToday &&
+                timeToMinutes(time) < currentTimeInMinutes
               const isDisabled = isAlreadyDisabled || isPastHour
               const isSelected = selectedHour === time
               const state = isDisabled ? 'disabled' : isSelected ? 'selected' : 'default'
