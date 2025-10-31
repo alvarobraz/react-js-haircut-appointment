@@ -34,7 +34,9 @@
 
 ## :dart: Sobre
 
-Aplicação de agendamentos de um salão de beleza em React/TypeScript chamada HairDay!
+HairDay é uma aplicação de agendamentos para salões de beleza desenvolvida com React e TypeScript, com foco em experiência do usuário, organização de código e boas práticas de desenvolvimento.
+
+O sistema permite que o usuário visualize e crie agendamentos de forma simples e intuitiva, separando os horários por períodos — Manhã, Tarde e Noite — e bloqueando automaticamente horários já ocupados ou passados no dia atual.
 
 ## :rocket: Tecnologias
 
