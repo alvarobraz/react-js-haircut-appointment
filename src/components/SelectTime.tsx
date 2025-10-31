@@ -1,12 +1,11 @@
-import { cva, cx, type VariantProps } from "class-variance-authority";
-import { textVariants } from "./text";
-import { useState } from "react";
+import { cva, cx, type VariantProps } from 'class-variance-authority'
+import { textVariants } from './text'
 
 const timeGroups = {
-  Manhã: ["09:00", "10:00", "11:00"],
-  Tarde: ["13:00", "14:00", "15:00", "16:00", "17:00", "18:00"],
-  Noite: ["19:00", "20:00", "21:00"],
-};
+  Manhã: ['09:00', '10:00', '11:00'],
+  Tarde: ['13:00', '14:00', '15:00', '16:00', '17:00', '18:00'],
+  Noite: ['19:00', '20:00', '21:00'],
+}
 
 export const selectTimeVariants = cva(
   `
@@ -36,66 +35,82 @@ export const selectTimeVariants = cva(
         `,
       },
       size: {
-        md: "px-4 py-2",
+        md: 'px-4 py-2',
       },
     },
     defaultVariants: {
-      state: "default",
-      size: "md",
+      state: 'default',
+      size: 'md',
     },
   }
-);
+)
 
 interface SelectTimeProps extends VariantProps<typeof selectTimeVariants> {
-  className?: string;
-  disabledTimes?: string[];
-  onSelect?: (time: string) => void;
+  className?: string
+  disabledTimes?: string[]
+  onSelect?: (time: string) => void
+  selectedHour: string
+  isToday: boolean
+  currentTimeInMinutes: number
 }
 
 export default function SelectTime({
   className,
   disabledTimes = [],
   onSelect,
-  size = "md",
+  size = 'md',
+  selectedHour,
+  isToday,
+  currentTimeInMinutes,
 }: SelectTimeProps) {
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const timeToMinutes = (time: string) => {
+    const [h, m] = time.split(':').map(Number)
+    return h * 60 + m
+  }
 
   const handleClick = (time: string) => {
-    setSelectedTime(time);
-    onSelect?.(time);
-  };
+    onSelect?.(time)
+  }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className='flex flex-col gap-6'>
       {Object.entries(timeGroups).map(([period, times]) => (
         <div key={period}>
-          <p className={cx(textVariants({ variant: "text-sm" }), "mb-1 text-[color:var(--color-gray-200)]")}>
+          <p
+            className={cx(
+              textVariants({ variant: 'text-sm' }),
+              'mb-1 text-[color:var(--color-gray-200)]'
+            )}
+          >
             {period}
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className='flex flex-wrap gap-2'>
             {times.map((time) => {
-              const isDisabled = disabledTimes.includes(time);
-              const isSelected = selectedTime === time;
-              const state = isDisabled ? "disabled" : isSelected ? "selected" : "default";
+              const isAlreadyDisabled = disabledTimes.includes(time)
+              const isPastHour = isToday && timeToMinutes(time) < currentTimeInMinutes
+              const isDisabled = isAlreadyDisabled || isPastHour
+              const isSelected = selectedHour === time
+              const state = isDisabled ? 'disabled' : isSelected ? 'selected' : 'default'
 
               return (
                 <button
                   key={time}
                   className={cx(
                     selectTimeVariants({ state, size }),
-                    textVariants({ variant: "text-md" }),
+                    textVariants({ variant: 'text-md' }),
                     className
                   )}
                   onClick={() => handleClick(time)}
                   disabled={isDisabled}
+                  type='button'
                 >
                   {time}
                 </button>
-              );
+              )
             })}
           </div>
         </div>
       ))}
     </div>
-  );
+  )
 }

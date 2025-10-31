@@ -1,7 +1,6 @@
-import { cva, type VariantProps } from "class-variance-authority";
-import React from "react";
+import { cva, type VariantProps } from 'class-variance-authority'
+import React from 'react'
 
- 
 export const cardVariants = cva(
   `
       
@@ -9,29 +8,27 @@ export const cardVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-[color:var(--color-gray-700)]",
-        secondary: "bg-transparent"
+        primary: 'bg-[color:var(--color-gray-700)]',
+        secondary: 'bg-transparent',
       },
       size: {
-        none: "",
-        md: "p-20",
+        none: '',
+        md: 'p-20',
       },
     },
     defaultVariants: {
-      variant: "primary",
-      size: "none",
+      variant: 'primary',
+      size: 'none',
     },
   }
-);
+)
 
-interface CardProps
-  extends VariantProps<typeof cardVariants>,
-    React.ComponentProps<"div"> {
-  as?: keyof React.JSX.IntrinsicElements;
+interface CardProps extends VariantProps<typeof cardVariants>, React.ComponentProps<'div'> {
+  as?: keyof React.JSX.IntrinsicElements
 }
 
 export default function Card({
-  as = "div",
+  as = 'div',
   size,
   variant,
   children,
@@ -45,5 +42,5 @@ export default function Card({
       ...props,
     },
     children
-  );
+  )
 }

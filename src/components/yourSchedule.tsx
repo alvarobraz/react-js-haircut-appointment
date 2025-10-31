@@ -1,8 +1,8 @@
-import { cva, type VariantProps } from "class-variance-authority";
-import React from "react";
-import TrashIcon from "../assets/icons/trash.svg?react";
-import Text from "../components/text";
-import Icon from "./icon";
+import { cva, type VariantProps } from 'class-variance-authority'
+import React from 'react'
+import TrashIcon from '../assets/icons/trash.svg?react'
+import Text from '../components/text'
+import Icon from './icon'
 
 export const yourScheduleVariants = cva(
   `
@@ -15,44 +15,45 @@ export const yourScheduleVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-transparent border border-[color:var(--color-gray-600)]",
+        primary: 'bg-transparent border border-[color:var(--color-gray-600)]',
       },
     },
     defaultVariants: {
-      variant: "primary",
+      variant: 'primary',
     },
   }
-);
+)
 
 interface ScheduleItem {
-  time: string;
-  name: string;
+  id: string
+  hour: string
+  client: string
 }
 
 interface YourScheduleProps
   extends VariantProps<typeof yourScheduleVariants>,
-    React.ComponentProps<"div"> {
-  period: string;
-  range: string;
-  icon: React.ComponentProps<typeof Icon>["svg"];
-  items: ScheduleItem[];
-  onDelete?: (time: string) => void;
+    React.ComponentProps<'div'> {
+  period: string
+  range: string
+  icon: React.ComponentProps<typeof Icon>['svg']
+  items: ScheduleItem[]
+  onDelete?: (time: string) => void
 }
 
-export const scheduleIconVariants = cva("transition", {
+export const scheduleIconVariants = cva('transition', {
   variants: {
     variant: {
-      primary: "fill-yellow-dark",
+      primary: 'fill-yellow-dark',
     },
     size: {
-      sm: "w-6 h-6",
+      sm: 'w-6 h-6',
     },
   },
   defaultVariants: {
-    variant: "primary",
-    size: "sm",
+    variant: 'primary',
+    size: 'sm',
   },
-});
+})
 
 export default function YourSchedule({
   period,
@@ -66,42 +67,44 @@ export default function YourSchedule({
 }: YourScheduleProps) {
   return (
     <div className={yourScheduleVariants({ variant, className })} {...props}>
-      <div className="flex justify-between items-center border-b-2 p-4 border-[color:var(--color-gray-600)]">
-        <div className="flex items-center gap-2">
-          <Icon className={scheduleIconVariants({ size: "sm", variant })} svg={icon} />
-          <Text className="!text-gray-300" variant="text-sm">
+      <div className='flex justify-between items-center border-b-2 p-4 border-[color:var(--color-gray-600)]'>
+        <div className='flex items-center gap-2'>
+          <Icon className={scheduleIconVariants({ size: 'sm', variant })} svg={icon} />
+          <Text className='!text-gray-300' variant='text-sm'>
             {period}
           </Text>
         </div>
-        <Text className="!text-gray-400" variant="text-sm">
+        <Text className='!text-gray-400' variant='text-sm'>
           {range}
         </Text>
       </div>
 
-      <div className="flex flex-col gap-2 mt-0 p-4">
-        {items.map(({ time, name }) => (
+      <div className='flex flex-col gap-2 mt-0 p-4'>
+        {items.length === 0 && (
+          <Text>Você ainda não tem agendamentos cadastrados nesse período.</Text>
+        )}
+        {items.map(({ id, hour, client }) => (
           <div
-            key={time}
-            className="flex justify-between items-center bg-transparent py-1 rounded-xl"
+            key={id}
+            className='flex justify-between items-center bg-transparent py-1 rounded-xl'
           >
-            <div className="flex items-center gap-4 w-full">
-              <Text className="!text-gray-200 w-16 text-left" variant="title-md">
-                {time}
+            <div className='flex items-center gap-4 w-full'>
+              <Text className='!text-gray-200 w-16 text-left' variant='title-md'>
+                {hour}
               </Text>
-              <Text className="!text-gray-200 flex-1" variant="text-md">
-                {name}
+              <Text className='!text-gray-200 flex-1' variant='text-md'>
+                {client}
               </Text>
             </div>
             <button
-              onClick={() => onDelete?.(time)}
-              className="text-[color:var(--color-gray-300)] hover:text-[color:var(--color-red-400)] transition-colors cursor-pointer"
+              onClick={() => onDelete?.(id)}
+              className='text-[color:var(--color-gray-300)] hover:text-[color:var(--color-red-400)] transition-colors cursor-pointer'
             >
-              <TrashIcon className="w-4 h-4 fill-yellow hover:fill-yellow-dark" />
+              <TrashIcon className='w-4 h-4 fill-yellow hover:fill-yellow-dark' />
             </button>
           </div>
         ))}
       </div>
-
     </div>
-  );
+  )
 }
